@@ -1,6 +1,9 @@
 FROM ubuntu:latest
 MAINTAINER Jonathan Hosmer <jonathan@wink.com>
 
+RUN apt update && apt install -y \
+        curl
+
 ENV FACTORIO_VERSION=0.14.22
 
 RUN useradd factorio
