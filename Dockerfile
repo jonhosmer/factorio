@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 MAINTAINER Jonathan Hosmer <jonathan@wink.com>
 
-FACTORIO_VERSION=0.14.22
+ENV FACTORIO_VERSION=0.14.22
 
 RUN useradd factorio
 RUN mkdir -p /opt/factorio/saves && chown -R factorio:factorio /opt/factorio
