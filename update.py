@@ -8,6 +8,7 @@ import argparse
 import requests
 
 # factorio --version | grep Version | awk '{print $2}'
+# Assumes factorio is installed to: /opt/factorio
 
 parser = argparse.ArgumentParser(description="Fetches Factorio update packages (e.g., for headless servers)")
 parser.add_argument('-d', '--dry-run', action='store_true', dest='dry_run',
@@ -126,8 +127,9 @@ def main():
         return 0
 
     if args.for_version is None:
-        if os.path.isfile('factorio/data/base/info.json'):
-            args.for_version = json.load(open('factorio/data/base/info.json')).get('version')
+        base_info_json = '/opt/factorio/data/base/info.json'
+        if os.path.isfile(base_info_json):
+            args.for_version = json.load(open(base_info_json)).get('version')
         else:
             parser.error('Please specify version with the --for-version flag.')
 

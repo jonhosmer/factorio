@@ -31,8 +31,9 @@ EXPOSE 34197/udp 27015/tcp
 
 COPY entrypoint.sh /
 COPY update.py /
-COPY mods /factorio/mods/
+
 COPY config /factorio/config/
+COPY mods /factorio/mods/
 
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["/entrypoint.sh"]

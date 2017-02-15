@@ -28,6 +28,8 @@ if ! find -L $SAVES -iname \*.zip -mindepth 1 -print | grep -q .; then
       --map-gen-settings $CONFIG/map-gen-settings.json
 fi
 
+sed -i'' "s/%GAME_PASSWORD%/${GAME_PASSWORD}/" $CONFIG/server-settings.json
+
 exec /opt/factorio/bin/x64/factorio \
     --port 34197 \
     --start-server-load-latest \

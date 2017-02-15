@@ -1,7 +1,7 @@
 {
-  "name": "Wink Factorio",
-  "description": "Factorio server for Wink",
-  "tags": ["game", "tags"],
+  "name": "Wink Modded",
+  "description": "Modded Factorio server for Wink",
+  "tags": ["game", "tags", "wink", "modded"],
 
   "_comment_max_players": "Maximum number of players allowed, admins can join even a full server. 0 means unlimited.",
   "max_players": 0,
@@ -11,7 +11,7 @@
   "visibility":
   {
     "public": false,
-    "lan": true
+    "lan": false
   },
 
   "_comment_credentials": "Your factorio.com login credentials. Required for games with visibility public",
@@ -21,7 +21,7 @@
   "_comment_token": "Authentication token. May be used instead of 'password' above.",
   "token": "",
 
-  "game_password": "",
+  "game_password": "%GAME_PASSWORD%",
 
   "_comment_require_user_verification": "When set to true, the server will only allow clients that have a valid Factorio.com account",
   "require_user_verification": true,
@@ -39,13 +39,13 @@
   "allow_commands": "admins-only",
 
   "_comment_autosave_interval": "Autosave interval in minutes",
-  "autosave_interval": 10,
+  "autosave_interval": 5,
 
   "_comment_autosave_slots": "server autosave slots, it is cycled through when the server autosaves.",
   "autosave_slots": 5,
 
   "_comment_afk_autokick_interval": "How many minutes until someone is kicked when doing nothing, 0 for never.",
-  "afk_autokick_interval": 0,
+  "afk_autokick_interval": 30,
 
   "_comment_auto_pause": "Whether should the server be paused when no players are present.",
   "auto_pause": true,
