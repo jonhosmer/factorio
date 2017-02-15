@@ -21,7 +21,8 @@ RUN curl -sSL https://www.factorio.com/get-download/$VERSION/headless/linux64 \
     tar xzf /tmp/factorio_headless_x64_$VERSION.tar.gz --directory /opt && \
     rm /tmp/factorio_headless_x64_$VERSION.tar.gz
 
-RUN ln -s /factorio/saves /opt/factorio/saves && \
+RUN ln -s /factorio/config /opt/factorio/config && \
+    ln -s /factorio/saves /opt/factorio/saves && \
     ln -s /factorio/mods /opt/factorio/mods
 
 VOLUME /factorio
@@ -30,7 +31,8 @@ EXPOSE 34197/udp 27015/tcp
 
 COPY entrypoint.sh /
 COPY update.py /
-COPY mods /factorio/mods
+COPY mods /factorio/mods/
+COPY config /factorio/config/
 
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["/entrypoint.sh"]

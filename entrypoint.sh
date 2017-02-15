@@ -2,12 +2,13 @@
 
 set -e
 
-SAVES=/factorio/saves
 CONFIG=/factorio/config
+SAVES=/factorio/saves
+MODS=/factorio/mods
 
-mkdir -p $SAVES
-mkdir -p /factorio/mods
 mkdir -p $CONFIG
+mkdir -p $SAVES
+mkdir -p $MODS
 
 if [ ! -f $CONFIG/rconpw ]; then
     echo $(pwgen 15 1) > $CONFIG/rconpw
