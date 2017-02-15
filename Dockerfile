@@ -1,21 +1,39 @@
-FROM ubuntu:latest
+FROM frolvlad/alpine-glibc:alpine-3.4
 MAINTAINER Jonathan Hosmer <jonathan@wink.com>
 
-RUN apt update && apt install -y \
-        curl
+ENV VERSION=0.14.22 \
+    SHA1=c43fa0d750e8347ec466ce165053db3cd3dc2fe0
 
-ENV FACTORIO_VERSION=0.14.22
+RUN mkdir /opt
+RUN apk --no-cache add \
+    curl \
+    tini \
+    pwgen \
+    'python=2.7.12-r0' \
+    'py-pip=8.1.2-r0' \
+  && rm -rf /etc/apk/cache
 
-RUN useradd factorio
-RUN mkdir -p /opt/factorio/saves && chown -R factorio:factorio /opt/factorio
-USER factorio
-WORKDIR /opt/factorio
+RUN pip install requests
 
-RUN curl -vL "https://www.factorio.com/get-download/${FACTORIO_VERSION}/headless/linux64" -o factorio.tar.gz && \
-    tar -zxvf factorio.tar.gz
+RUN curl -sSL https://www.factorio.com/get-download/$VERSION/headless/linux64 \
+        -o /tmp/factorio_headless_x64_$VERSION.tar.gz && \
+    echo "$SHA1  /tmp/factorio_headless_x64_$VERSION.tar.gz" | sha1sum -c && \
+    tar xzf /tmp/factorio_headless_x64_$VERSION.tar.gz --directory /opt && \
+    rm /tmp/factorio_headless_x64_$VERSION.tar.gz
 
-COPY update.py /opt/factorio
+RUN ln -s /factorio/config /opt/factorio/config && \
+    ln -s /factorio/saves /opt/factorio/saves && \
+    ln -s /factorio/mods /opt/factorio/mods
 
-EXPOSE 34197
+VOLUME /factorio
 
-ENTRYPOINT ["/opt/factorio/factorio/bin/x64/factorio", "--create", "saves/1.zip"]
+EXPOSE 34197/udp 27015/tcp
+
+COPY entrypoint.sh /
+COPY update.py /
+
+COPY config /factorio/config/
+COPY mods /factorio/mods/
+
+ENTRYPOINT ["/sbin/tini", "--"]
+CMD ["/entrypoint.sh"]
